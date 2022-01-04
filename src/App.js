@@ -1,12 +1,34 @@
 import './App.css';
-import {
-  Scene,
-  PerspectiveCamera,
-  WebGLRenderer,
-  BoxGeometry,
-  MeshBasicMaterial,
-  Mesh,
-} from 'three';
+import { Suspense } from "react";
+import { Canvas } from '@react-three/fiber'
+import { OrbitControls } from '@react-three/drei'
+import styled from 'styled-components'
+import Box from './Box';
+
+
+const Wrapper = styled.div`
+position: relative;
+
+canvas{
+  height: 100%;
+  width: 100%;
+}
+`;
+
+export default function App() {
+  return (
+    <Wrapper >
+      <Canvas className="canvas">
+        <OrbitControls enableZoom={false} />
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[-2, 5, 2]} />
+        <Suspense fallback={null}>
+          <Box />
+        </Suspense>
+      </Canvas>
+    </Wrapper>
+  )
+}
 
 //Three things required to start using three.js: Scene, Camera, and Renderer
 //Creating new scene instance
@@ -22,31 +44,46 @@ import {
 // const renderer = new WebGLRenderer();
 // renderer.setSize(window.innerWidth, window.innerHeight);
 
-function App() {
-  const scene = new Scene();
-  const camera = new PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+// function App() {
+  //   const fov = 50;
+//   const aspect = window.innerWidth/window.innerHeight;
+//   const near = 0.1;
+//   const far = 1000;
+//   const scene = new Scene();
+//   const camera = new PerspectiveCamera( fov, aspect, near, far );
+//   camera.position.z = 2;
 
-  const renderer = new WebGLRenderer();
-  renderer.setSize( window.innerWidth, window.innerHeight );
-  document.body.appendChild( renderer.domElement );
+//   const renderer = new WebGLRenderer();
+//   renderer.setSize( window.innerWidth, window.innerHeight );
+//   document.body.appendChild( renderer.domElement );
 
-  const geometry = new BoxGeometry();
-  const material = new MeshBasicMaterial( { color: 0x00ff00 } );
-  const cube = new Mesh( geometry, material );
-  scene.add( cube );
+//   //BoxGeometry params (width, height, depth) all default to 1 if empty
+//   const geometry = new BoxGeometry();
 
-  camera.position.z = 5;
+//   //LIGHTS
+//   {
+//     const color = 0xFFFFFF;
+//     const intensity = 1;
+//     const light = new DirectionalLight(color, intensity);
+//     light.position.set(-1, 2, 4);
+//     scene.add(light);
+//   }
 
-  function animate() {
-    requestAnimationFrame( animate );
+//   const material = new MeshPhongMaterial( { color: '#2053FF' } );
+//   const cube = new Mesh( geometry, material );
+//   scene.add( cube );
 
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
+//   camera.position.z = 5;
 
-    renderer.render( scene, camera );
-  };
+//   function animate() {
+//     requestAnimationFrame( animate );
 
-  animate();
-}
+//     cube.rotation.x += 0.01;
+//     cube.rotation.y += 0.01;
 
-export default App;
+//     renderer.render( scene, camera );
+//   };
+
+//   animate();
+// }
+
