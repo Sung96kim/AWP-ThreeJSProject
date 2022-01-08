@@ -1,29 +1,62 @@
 import './App.css';
 import { Suspense } from "react";
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
-import styled from 'styled-components'
-import Box from './Box';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
+import styled from 'styled-components';
 
+import Box from './Box';
+import RotatingBox from './RotatingBox';
+import CustomAniBox from './CustomAniBox';
+import CuteFrog from './CuteFrog'
 
 const Wrapper = styled.div`
-position: relative;
+  position: relative;
 
-canvas{
-  height: 100%;
-  width: 100%;
-}
+  canvas{
+    height: 100%;
+    width: 100%;
+  }
+
+  h2{
+    text-align: center;
+  }
 `;
 
 export default function App() {
   return (
     <Wrapper >
+      <h2>Orbital Controls</h2>
       <Canvas className="canvas">
         <OrbitControls enableZoom={false} />
         <ambientLight intensity={0.5} />
-        <directionalLight position={[-2, 5, 2]} />
+        <directionalLight position={[0, 1, 0]} />
         <Suspense fallback={null}>
           <Box />
+        </Suspense>
+      </Canvas>
+      <h2>Spinning on x, y, and z axis</h2>
+      <Canvas>
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[0, 1, 0]} />
+        <Suspense fallback={null}>
+          <RotatingBox />
+        </Suspense>
+      </Canvas>
+      <h2>Interactive animation</h2>
+      <Canvas>
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[0, 1, 0]} />
+        <Suspense fallback={null}>
+          <CustomAniBox />
+        </Suspense>
+      </Canvas>
+      <h2>Import 3d models</h2>
+      <Canvas className="imported-model">
+        <OrbitControls enableZoom={false} />
+        <ambientLight intensity={2} />
+        <directionalLight position={[0, 1, 0]} />
+        <Suspense fallback={null}>
+          <CuteFrog />
         </Suspense>
       </Canvas>
     </Wrapper>
